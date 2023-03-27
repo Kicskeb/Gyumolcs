@@ -13,35 +13,37 @@ public:
         std::uniform_int_distribution<size_t> dist(0, 24);
         std::uniform_int_distribution<size_t> dist_2(0, 6);
         std::set<unsigned int> things;
-        std::set<unsigned int>::iterator it;
-        unsigned int x1=dist_2(gen), x2=x1;
-        int i=0;
-        while (x1 == x2) {
+        unsigned int x1, x2;
+        do {
+            x1 = dist_2(gen);
             x2 = dist_2(gen);
-        };
+        } while (x1 != x2);
         while (things.size() < 7) {
             things.insert(dist(gen));
         };
-        for (it = things.begin(); it != things.end(); ++it){
-            arr[*it] = (i == x1 || i == x2) ? 'X' : 'G';
+        int i = 0;
+        for (auto j: things) {
+            arr[j] = (i == x1 || i == x2) ? 'X' : 'G';
             i++;
         };
     };
+
     void printer() {
-        for (auto i : arr) {
+        for (auto i: arr) {
             std::cout << i << " ";
         };
         std::cout << std::endl;
     }
+
     void play() {
         int g_szam = 0, steps = 0;
-        for (auto i : arr) {
+        for (auto i: arr) {
             if (i == 'X') steps += 3;
-            if (i == 'G') g_szam++;
+            else if (i == 'G') g_szam++;
             steps++;
             if (g_szam == 5) break;
         };
-        std::cout << "Required steps: " << steps ;
+        std::cout << "Required steps: " << steps;
     }
 };
 
